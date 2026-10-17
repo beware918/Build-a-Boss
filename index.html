@@ -1,0 +1,158 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Build a Boss — The TPK Challenge — Play</title><style>
+:root{color-scheme:dark;font-family:system-ui,Segoe UI,sans-serif;background:#0e1019;color:#f6f0e6}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#63372370,transparent 55%),#0e1019}main{max-width:1180px;margin:auto;padding:28px 20px 70px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.eyebrow{color:#e9aa65;letter-spacing:.19em;font-size:12px;font-weight:800}h1{font-family:Georgia,serif;font-size:clamp(42px,8vw,86px);margin:5px 0;letter-spacing:-.06em}h2{font-family:Georgia,serif;margin:0 0 10px;font-size:26px}.muted{color:#b7b1bd;line-height:1.5}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,390px);gap:18px;margin-top:25px}@media(max-width:830px){.layout{grid-template-columns:1fr}}.card{background:#1a1b29;border:1px solid #3a3442;border-radius:18px;padding:22px;margin-bottom:17px;box-shadow:0 12px 40px #0003}.buttonrow{display:flex;flex-wrap:wrap;gap:10px}button{border:0;border-radius:9px;background:#dba064;color:#21140d;font:800 15px system-ui;padding:12px 17px;cursor:pointer}button.secondary{background:#353044;color:#f3e8e0}button:disabled{opacity:.35;cursor:not-allowed}button:hover:not(:disabled){filter:brightness(1.1)}.progress{height:9px;background:#353041;border-radius:10px;overflow:hidden;margin:14px 0}.progress>div{background:#dfa469;height:100%;transition:width .2s}.roll{border:1px solid #76533f;background:linear-gradient(140deg,#382b33,#25202e);padding:22px;border-radius:14px;min-height:158px;margin:18px 0}.roll strong{display:block;font-family:Georgia,serif;font-size:29px;margin:7px 0}.roll .tag{color:#e6ad7b;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:11px}.slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.slot{background:#242434;border:1px solid #393649;border-radius:9px;padding:11px;min-height:67px}.slot small{display:block;color:#b7b0c0;font-size:11px;margin-bottom:4px}.slot b{font-size:13px;overflow-wrap:anywhere}.slot.filled{border-color:#756045}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric{background:#262333;padding:12px;border-radius:10px;text-align:center}.metric b{font-size:24px;display:block;color:#ffcf90}.metric small{color:#bcb4c2;font-size:11px}input,select{background:#292638;color:#fff;border:1px solid #615669;border-radius:8px;padding:10px;width:100%;font:inherit}.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.fields label{font-size:12px;color:#c9c1cd}.fields input,.fields select{margin-top:5px}.barrow{display:grid;grid-template-columns:56px 1fr 57px;gap:8px;align-items:center;font-size:13px;margin:8px 0}.bar{background:#34303f;border-radius:9px;height:15px;overflow:hidden}.bar i{display:block;background:linear-gradient(90deg,#ba6550,#ecb16c);height:100%}.bigscore{font-size:64px;font-weight:900;color:#f4bd7b;line-height:1}.title{font-family:Georgia,serif;font-size:25px;margin:4px 0 16px}#log{max-height:340px;overflow:auto;font-size:13px;line-height:1.7;background:#11121d;padding:13px;border-radius:10px}#log div{border-bottom:1px solid #292637;padding:3px 0}.hidden{display:none!important}.notice{font-size:12px;color:#a9a1b3;margin-top:14px}.spinner{animation:flash .4s alternate infinite}@keyframes flash{to{opacity:.45}}.error{color:#ff9b92}footer{margin-top:30px;color:#8f8999;font-size:12px}
+</style></head><body><main><header><div><div class="eyebrow">SPIN · BUILD · CONQUER</div><h1>BUILD A BOSS</h1><div class="muted">The TPK Challenge · Spin for powers. Forge your villain. Wipe out the party.</div></div><button class="secondary" id="restart">New Boss</button></header><div class="layout"><section><div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2>The Forge</h2><span id="count" class="muted">0 / 16</span></div><div class="progress"><div id="progress" style="width:0"></div></div><p class="muted">Each spin fills a random slot with a trait from a random SRD creature. Your boss commands eight CR 2–7 minions. Boss HP starts at 100, plus the HP rolled in the HP slot and the Constitution adjustment. You have two rerolls for the entire forge.</p><div id="roll" class="roll"><div class="tag">Ready to forge</div><strong>Spin for your first trait</strong><span class="muted">16 slots. Hundreds of possible monsters.</span></div><div class="buttonrow"><button id="spin">Spin the Forge</button><button id="accept" class="secondary" disabled>Keep Trait</button><button id="reroll" class="secondary" disabled>Reroll (2)</button></div><div id="forgeError" class="error"></div><p id="sourceStatus" class="notice" aria-live="polite">Preparing SRD 5.2.1 monsters…</p><div class="buttonrow"><button class="secondary hidden" id="retrySRD">Retry SRD Load</button><button class="secondary hidden" id="useDemo">Play Demo Pool</button><button class="secondary hidden" id="offlineCopy">Download Fully Offline Game</button></div></div><div class="card"><h2>Your Monster</h2><div id="slots" class="slots"></div></div></section><aside><div class="card"><h2>Boss Challenge</h2><p class="muted">Finish all 16 traits to automatically battle the Fighter, Wizard, Cleric, and Rogue at every party level from <strong>5 to 20</strong>.</p><p class="muted">Each level gets 200 seeded battles. Your boss defeats a level by winning at least 65% of them. See how high your creation can climb!</p><p id="busy" class="notice" aria-live="polite">Complete the forge to start the challenge.</p></div><div class="card hidden" id="result"><h2 id="resultTitle">Battle Results</h2><div id="resultBody"></div></div><div class="card"><h2>How the challenge works</h2><p class="muted">Your boss automatically fights parties at levels 5–20, with 200 battles per level (3,200 total). Winning at least 65% of battles defeats that level. Your result is the highest level defeated, with a full breakdown below.</p><p class="notice">This is an original D&D-inspired arcade game, not an official D&D rules simulator. Monster stats are sourced from SRD 5.2.1; once loaded, they are cached on this device for offline play. You can also download a fully standalone copy with all 322 monsters embedded. Combat abilities are simplified for Arcade play.</p></div></aside></div><footer>Build a Boss — The TPK Challenge · SRD 5.2.1 collection cached locally · Offline-copy export available · Arcade mechanics are simplified · CC BY 4.0 attribution below<div class="notice">D&D System Reference Document 5.2.1 © Wizards of the Coast LLC, used under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color:#e9aa65">CC BY 4.0</a>. Source: <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener" style="color:#e9aa65">official SRD</a>. Structured data from <a href="https://github.com/adkinn/srd-5.2.1" target="_blank" rel="noopener" style="color:#e9aa65">adkinn/srd-5.2.1</a> via Open5e. Boss Forge is unofficial and not endorsed by Wizards of the Coast.</div></footer></main><script>
+'use strict';
+const names=['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma','HP','AC','Defensive Traits','Attacks','Special Abilities','Spellcasting','Legendary Powers','Minions','Mobility','Senses'];
+const demoMonsters=[
+{name:'Ember Wyrm',cr:15,stats:[25,12,22,16,14,18],hp:220,ac:19,atk:[10,2,8,7,1],def:{immune:['fire']},special:true,spell:false,legend:1,speed:80,sense:120},
+{name:'Cavern Guardian',cr:6,stats:[19,10,18,8,12,8],hp:95,ac:16,atk:[7,2,6,4,1],def:{resist:['cold']},special:false,spell:false,legend:0,speed:30,sense:30},
+{name:'Marsh Stalker',cr:3,stats:[14,18,14,10,14,10],hp:50,ac:14,atk:[5,1,10,3,1],def:{},special:false,spell:false,legend:0,speed:35,sense:60},
+{name:'Storm Herald',cr:12,stats:[21,16,20,14,16,17],hp:185,ac:18,atk:[9,2,10,5,2],def:{resist:['lightning','thunder']},special:true,spell:false,legend:1,speed:50,sense:90},
+{name:'Iron Tortoise',cr:8,stats:[22,7,23,5,13,7],hp:145,ac:21,atk:[8,2,8,6,1],def:{resist:['slashing','piercing']},special:false,spell:false,legend:0,speed:20,sense:20},
+{name:'Void Oracle',cr:17,stats:[10,15,18,24,22,20],hp:165,ac:17,atk:[10,3,8,5,1],def:{},special:true,spell:true,legend:1,speed:40,sense:60},
+{name:'Glass Mantis',cr:4,stats:[13,20,12,6,15,8],hp:46,ac:17,atk:[7,2,6,5,1],def:{resist:['psychic']},special:false,spell:false,legend:0,speed:45,sense:60},
+{name:'Mire Alchemist',cr:2,stats:[9,14,13,18,12,13],hp:34,ac:13,atk:[5,2,6,2,1],def:{},special:true,spell:false,legend:0,speed:30,sense:30}
+];
+
+let monsters=demoMonsters;
+const EMBEDDED_MONSTERS=null; // The downloadable offline copy replaces this value with all SRD arcade profiles.
+const SRD_URL='https://raw.githubusercontent.com/adkinn/srd-5.2.1/main/data/monsters.json';
+const CACHE_KEY='boss-forge-srd-521-monsters-v1';
+const LICENSE='D&D System Reference Document 5.2.1 © Wizards of the Coast LLC, licensed CC BY 4.0. Structured data republished by Open5e and adkinn/srd-5.2.1. https://creativecommons.org/licenses/by/4.0/';
+function diceStats(str){
+ const m=String(str||'').match(/(\d+)d(\d+)\s*([+-]\s*\d+)?/i);
+ if(m)return [Math.max(1,Number(m[1])),Math.max(2,Number(m[2])),Number((m[3]||'0').replace(/\s/g,''))];
+ const fixed=String(str||'').match(/(?:Hit:\s*)?(\d+)\s+(?:\w+\s+)?damage/i);
+ return fixed?[1,2,Math.max(0,Number(fixed[1])-1)]:null;
+}
+function attackProfile(block,cr){
+ const acts=Array.isArray(block.actions)?block.actions:[];
+ const choices=[];
+ for(const a of acts){
+  const damages=Array.isArray(a.damage)?a.damage:[];
+  let dice=damages.map(d=>diceStats(d.dice)).find(Boolean);
+  if(!dice)dice=diceStats(a.description);
+  if(!dice)continue;
+  const bonus=Number.isFinite(Number(a.attack_bonus))?Number(a.attack_bonus):Number((String(a.description||'').match(/([+-]\d+)\s+to hit/)||[])[1]);
+  if(!Number.isFinite(bonus))continue;
+  const avg=dice[0]*(dice[1]+1)/2+dice[2];
+  choices.push({a,bonus,dice,avg});
+ }
+ choices.sort((x,y)=>y.avg-x.avg);
+ const best=choices[0];
+ const multi=acts.find(a=>/multiattack/i.test(a.name||''));
+ const text=(multi?.description||'');
+ const n=Number((text.match(/(?:makes?|uses?)\s+(two|three|four|five|six|\d+)\s+attacks?/i)||[])[1]);
+ const words={two:2,three:3,four:4,five:5,six:6};
+ const count=Number.isFinite(n)&&n>0?n:(words[(text.match(/(?:makes?|uses?)\s+(two|three|four|five|six)/i)||[])[1]?.toLowerCase()]||1);
+ if(best)return [best.bonus,...best.dice,Math.min(5,count)];
+ return [Math.max(0,Math.min(16,Math.floor(Number(cr)/2)+2)),1,4,0,1];
+}
+function toArcade(m){
+ const b=m.stat_block_json||{}, scores=b.ability_scores||{}, speed=b.speed||{}, senses=b.senses||{};
+ const traits=[...(b.traits||[]),...(b.actions||[])];
+ const special=traits.some(t=>/recharge|breath|cone|line|explosion|burst|fireball|lightning|area|each creature/i.test((t.name||'')+' '+(t.description||'')));
+ const spell=traits.some(t=>/spellcasting|spell attack|spell slots|at will|cantrip/i.test((t.name||'')+' '+(t.description||'')));
+ const legendary=(b.legendary_actions||[]).length>0?Math.min(3,Math.max(1,(b.legendary_actions||[]).length)):0;
+ const sense=Math.max(0,...Object.entries(senses).filter(([k,v])=>k!=='passive_perception'&&Number.isFinite(Number(v))).map(([k,v])=>Number(v)));
+ return {name:m.name,cr:Number(m.cr_numeric)||0,stats:['str','dex','con','int','wis','cha'].map(k=>Number(scores[k])||10),
+ hp:Math.max(1,Number(m.hp_max)||1),ac:Math.max(1,Number(m.armor_class)||10),atk:attackProfile(b,m.cr_numeric),
+ def:{resist:(b.damage_resistances||[]).map(String),immune:(b.damage_immunities||[]).map(String)},
+ special,spell,legend,speed:Math.max(0,...Object.values(speed).map(v=>Number(v)||0)),sense,
+ source:'SRD 5.2.1',type:m.type,details:{traits:(b.traits||[]).map(x=>x.name),actions:(b.actions||[]).map(x=>x.name)}};
+}
+function useCachedSRD(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+  if(!Array.isArray(saved)||saved.length<200||saved.filter(m=>m.cr>=2&&m.cr<=7).length<50)return false;
+  monsters=saved;poolReady=true;
+  document.getElementById('sourceStatus').textContent=`${monsters.length} SRD monsters ready · Saved on this device for offline play`;
+  document.getElementById('retrySRD').classList.add('hidden');document.getElementById('useDemo').classList.add('hidden');document.getElementById('offlineCopy').classList.remove('hidden');render();return true;
+ }catch(e){return false}
+}
+async function loadSRD(){
+ const status=document.getElementById('sourceStatus');
+ try{
+  status.textContent='Loading SRD 5.2.1 monsters…';
+  const response=await fetch(SRD_URL,{cache:'force-cache'});
+  if(!response.ok)throw new Error('HTTP '+response.status);
+  const data=await response.json();
+  if(!Array.isArray(data.monsters)||data.monsters.length<200)throw new Error('Incomplete monster dataset');
+  const loaded=data.monsters.filter(m=>m.name&&m.stat_block_json).map(toArcade);
+  if(loaded.filter(m=>m.cr>=2&&m.cr<=7).length<50)throw new Error('Insufficient minion entries');
+  monsters=loaded;poolReady=true;
+  try{localStorage.setItem(CACHE_KEY,JSON.stringify(loaded))}catch(e){}
+  status.textContent=`${monsters.length} SRD 5.2.1 monsters loaded · Minions limited to CR 2–7`;
+  document.getElementById('retrySRD').classList.add('hidden');document.getElementById('useDemo').classList.add('hidden');document.getElementById('offlineCopy').classList.remove('hidden');
+  render();
+ }catch(e){
+  if(useCachedSRD())return;
+  status.textContent='SRD download unavailable ('+e.message+'). Connect to the internet once to save the monster collection for offline play, or use the 8-creature demo pool.';
+  document.getElementById('retrySRD').classList.remove('hidden');
+  document.getElementById('useDemo').classList.remove('hidden');
+ }
+}
+
+function loadEmbedded(){
+ if(!Array.isArray(EMBEDDED_MONSTERS)||EMBEDDED_MONSTERS.length<200)return false;
+ monsters=EMBEDDED_MONSTERS;poolReady=true;
+ document.getElementById('sourceStatus').textContent=`${monsters.length} SRD monsters bundled · Fully offline`;
+ document.getElementById('retrySRD').classList.add('hidden');
+ document.getElementById('useDemo').classList.add('hidden');
+ document.getElementById('offlineCopy').classList.remove('hidden');
+ render();return true;
+}
+function downloadOfflineCopy(){
+ if(monsters.length<200){alert('Load the SRD monster collection before downloading.');return}
+ const marker='const EMBEDDED_MONSTERS=null;';
+ const serialized=JSON.stringify(monsters).replace(/</g,'\\u003c');
+ const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML.replace(marker,'const EMBEDDED_MONSTERS='+serialized+';');
+ const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
+ const link=document.createElement('a');link.href=url;link.download='boss-forge-322-monsters-offline.html';
+ document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+const $=id=>document.getElementById(id);const slots={};let pending=null,rerolls=2,busy=false;let forgeRng=null;let poolReady=false;
+function rng(seed){let a=(Number(seed)>>>0)||0x9e3779b9;return ()=>{a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t^=t+Math.imul(t^(t>>>7),61|t);return ((t^(t>>>14))>>>0)/4294967296}}
+function integer(r,lo,hi){return lo+Math.floor(r()*(hi-lo+1))}function pick(r,arr){return arr[integer(r,0,arr.length-1)]}function clamp(v,a,b){return Math.max(a,Math.min(b,v))}const CHALLENGE_SEED=42;
+function value(slot,m){if(slot<6)return m.stats[slot];if(slot===6)return 100+m.hp;if(slot===7)return m.ac;if(slot===8)return m.def;if(slot===9)return m.atk;if(slot===10)return m.special;if(slot===11)return m.spell;if(slot===12)return m.legend;if(slot===13)return m;if(slot===14)return m.speed;return m.sense}
+function describe(slot,m){const v=value(slot,m);if(slot===6)return '100 base + '+m.hp+' spun = '+v+' HP';if(slot<8)return String(v);if(slot===8)return [...(v.resist||[]).map(x=>'Resist '+x),...(v.immune||[]).map(x=>'Immune '+x)].join(', ')||'No defenses';if(slot===9)return `${v[4]} × ${v[1]}d${v[2]}+${v[3]} (+${v[0]} hit)`;if(slot===10)return v?'Area power':'No special attack';if(slot===11)return v?'Arcane casting':'No spellcasting';if(slot===12)return v?`${v} legendary strike`:'No legendary strikes';if(slot===13)return '10 × '+m.name;if(slot===14)return v+' ft';return v+' ft'}
+function complete(){return Object.keys(slots).length===16}
+function render(){const count=Object.keys(slots).length;$('count').textContent=count+' / 16';$('progress').style.width=(count/16*100)+'%';$('slots').replaceChildren();names.forEach((name,i)=>{const div=document.createElement('div');div.className='slot'+(slots[i]?' filled':'');const small=document.createElement('small');small.textContent=name;const b=document.createElement('b');b.textContent=slots[i]?slots[i].monster.name+' · '+describe(i,slots[i].monster):'—';div.append(small,b);$('slots').append(div)});$('spin').disabled=!!pending||complete()||busy||!poolReady;$('accept').disabled=!pending||busy;$('reroll').disabled=!pending||!rerolls||busy;$('reroll').textContent='Reroll ('+rerolls+')';if(complete()&&!pending){$('roll').innerHTML='<div class="tag">Forge complete</div><strong>Your boss is ready</strong><span class="muted">Your challenge begins automatically!</span>'}}
+function roll(retry=false){const remaining=names.map((_,i)=>i).filter(i=>!slots[i]);const slot=retry?pending.slot:pick(forgeRng,remaining);const eligible=monsters.filter(m=>slot!==13||(m.cr>=2&&m.cr<=7)).filter(m=>!retry||m.name!==pending.monster.name);pending={slot,monster:pick(forgeRng,eligible)};$('roll').replaceChildren();const a=document.createElement('div');a.className='tag';a.textContent=names[slot];const b=document.createElement('strong');b.textContent=pending.monster.name;const c=document.createElement('span');c.className='muted';c.textContent=describe(slot,pending.monster);$('roll').append(a,b,c);render()}
+function restart(){for(const k in slots)delete slots[k];pending=null;rerolls=2;forgeRng=rng((Date.now()^Math.floor(Math.random()*0xffffffff))>>>0);$('result').classList.add('hidden');$('busy').textContent='Complete the forge to start the challenge.';$('forgeError').textContent='';$('roll').innerHTML='<div class="tag">Ready to forge</div><strong>Spin for your first trait</strong><span class="muted">16 slots. Hundreds of possible monsters.</span>';render()}
+function unit(name,hp,ac,bonus,dice,sides,flat,attacks=1,resist=[],immune=[]){return{name,hp,maxHp:hp,ac,bonus,dice,sides,flat,attacks,resist,immune,alive:true,guard:0}}
+function attack(a,b,r,scale=1,type='physical'){const d=integer(r,1,20);if(d!==20&&(d===1||d+a.bonus<b.ac+b.guard))return 0;let dmg=a.flat;for(let i=0;i<a.dice;i++)dmg+=integer(r,1,a.sides);if(d===20)for(let i=0;i<a.dice;i++)dmg+=integer(r,1,a.sides);dmg=Math.max(0,Math.round(Math.max(1,dmg)*scale));if(b.immune.includes(type))dmg=0;else if(b.resist.includes(type))dmg=Math.floor(dmg/2);b.hp=Math.max(0,b.hp-dmg);b.alive=b.hp>0;return dmg}
+function hero(role,l){const prof=2+Math.floor((l-1)/4),mod=l<4?3:l<8?4:5;if(role==='Fighter')return unit(role,12+(l-1)*8,18,prof+mod,1,8,mod+2,l<5?1:l<11?2:l<20?3:4);if(role==='Wizard')return unit(role,8+(l-1)*5,13+(l>=5)+(l>=11),prof+mod,1+(l>=5)+(l>=11)+(l>=17),10,0);if(role==='Cleric')return unit(role,10+(l-1)*6,18+(l>=11),prof+mod,1+(l>=5)+(l>=11)+(l>=17),8,0);return unit(role,10+(l-1)*6,15+(l>=5)+(l>=11),prof+mod,1,6,mod+Math.floor((l+1)/2)*3)}
+function makeBoss(){const s=i=>slots[i].monster;const atk=s(9).atk;const b=unit('Forged Boss',100+s(6).hp,s(7).ac,atk[0],atk[1],atk[2],atk[3],atk[4],s(8).def.resist||[],s(8).def.immune||[]);b.bonus+=Math.floor((s(0).stats[0]-10)/6);b.ac+=clamp(Math.floor((s(1).stats[1]-10)/6),-2,3);b.maxHp+=Math.max(-15,(s(2).stats[2]-10)*2);b.hp=b.maxHp;b.flat+=Math.max(-2,Math.floor((s(3).stats[3]-10)/8));b.guard=Math.max(0,Math.floor((s(4).stats[4]-10)/10));b.attacks=clamp(b.attacks+(s(5).stats[5]>=24?1:0),1,5);b.bonus+=(s(14).speed>=50?1:0)+(s(15).sense>=90?1:0);const m=s(13),a=m.atk;const minions=Array.from({length:8},(_,i)=>unit('Minion '+(i+1),m.hp,m.ac,a[0],a[1],a[2],a[3],clamp(a[4],1,5)));return{b,minions,aoe:s(10).special,caster:s(11).spell,legend:s(12).legend}}
+function target(arr){return arr.filter(u=>u.alive).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.hp-b.hp)[0]||null}
+function battle(level,seed,withLog=false){const r=rng(seed),{b,minions,aoe,caster,legend}=makeBoss();const heroes=['Fighter','Wizard','Cleric','Rogue'].map(x=>hero(x,level));let heals=2+Math.floor(level/3),bursts=1+Math.floor(level/4),recharge=true;const log=[];function note(round,text){if(withLog&&log.length<180)log.push('Round '+round+' · '+text)}for(let round=1;round<=20;round++){for(const h of heroes){if(!h.alive||!b.alive)continue;if(h.name==='Cleric'&&heals){const injured=heroes.filter(u=>u.alive&&u.hp/u.maxHp<.45).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp)[0];if(injured){const amt=Math.min(injured.maxHp-injured.hp,8+level*3+integer(r,1,8));injured.hp+=amt;heals--;note(round,'Cleric heals '+injured.name+' for '+amt);continue}}if(h.name==='Wizard'&&bursts&&level>=5){const foes=[b,...minions].filter(u=>u.alive);let dmg=0;for(let i=0;i<5+Math.floor(level/3);i++)dmg+=integer(r,1,6);for(const foe of foes.slice(0,5)){const actual=foe.immune.includes('fire')?0:foe.resist.includes('fire')?Math.floor(dmg/2):dmg;foe.hp=Math.max(0,foe.hp-actual);foe.alive=foe.hp>0}bursts--;note(round,'Wizard blasts '+Math.min(5,foes.length)+' foes for up to '+dmg);continue}const t=target(minions)||(b.alive?b:null);if(t){let damage=0;for(let i=0;i<h.attacks;i++)damage+=attack(h,t,r,1,h.name==='Wizard'?'force':'physical');note(round,h.name+' hits '+t.name+' for '+damage)}}if(!b.alive)return{winner:'heroes',round,log};if(!heroes.some(h=>h.alive))return{winner:'boss',round,log};if(aoe&&recharge&&round>=2){const damage=Math.max(8,Math.round(b.dice*(b.sides+1)/2+b.flat+level/2));for(const h of heroes){if(!h.alive)continue;const amt=integer(r,1,20)+2+Math.floor(level/5)<12+Math.floor(b.bonus/2)?damage:Math.floor(damage/2);h.hp=Math.max(0,h.hp-amt);h.alive=h.hp>0}recharge=false;note(round,'Boss unleashes area power')}else{const t=target(heroes);if(t){let damage=0;for(let i=0;i<b.attacks;i++)damage+=attack(b,t,r);note(round,'Boss strikes '+t.name+' for '+damage)}}if(!recharge&&integer(r,1,6)>=5)recharge=true;if(caster&&round%3===0){const t=target(heroes);if(t){const dmg=integer(r,6,12)+b.bonus;t.hp=Math.max(0,t.hp-dmg);t.alive=t.hp>0;note(round,'Boss channels magic at '+t.name+' for '+dmg)}}for(let i=0;i<legend;i++){const t=target(heroes);if(t&&b.alive)attack(b,t,r,.5)}for(const m of minions){if(!m.alive)continue;const t=target(heroes);if(t)for(let i=0;i<m.attacks;i++)attack(m,t,r)}if(!heroes.some(h=>h.alive))return{winner:'boss',round,log}}return{winner:'draw',round:20,log}}
+function trials(level,seed,count){let boss=0,heroes=0,draw=0,rounds=0;for(let i=0;i<count;i++){const result=battle(level,(seed+Math.imul(i,1000003))>>>0);if(result.winner==='boss')boss++;else if(result.winner==='heroes')heroes++;else draw++;rounds+=result.round}return{level,boss,heroes,draw,rate:boss/count,rounds:rounds/count}}
+function text(tag,content,cls=''){const e=document.createElement(tag);e.textContent=content;e.className=cls;return e}function show(title){$('resultTitle').textContent=title;$('result').classList.remove('hidden');$('resultBody').replaceChildren();return $('resultBody')}
+function bars(out,results){for(const x of results){const row=text('div','','barrow');row.append(text('span','Lv '+x.level));const bar=text('div','','bar');const fill=document.createElement('i');fill.style.width=(x.rate*100).toFixed(1)+'%';bar.append(fill);row.append(bar,text('b',Math.round(x.rate*100)+'%'));out.append(row)}}
+function titleFor(score){return score>=90?'Apocalypse':score>=75?'Worldbreaker':score>=60?'Legendary Menace':score>=45?'Dread Tyrant':score>=30?'Dungeon Terror':score>=15?'Dangerous Foe':'Rising Threat'}
+async function runChallenge(){
+ if(busy||!complete())return;
+ busy=true;render();$('result').classList.add('hidden');
+ const seed=CHALLENGE_SEED,results=[];
+ try{
+  for(let level=5;level<=20;level++){
+   $('busy').textContent=`Fighting level ${level} of 20… (${results.length*200} / 3,200 battles complete)`;
+   await new Promise(resolve=>setTimeout(resolve,0));
+   results.push(trials(level,seed,200));
+  }
+  const defeated=results.filter(x=>x.rate>=.65).map(x=>x.level);
+  const highest=defeated.length?Math.max(...defeated):null;
+  const out=show('Your Boss Challenge Result');
+  out.append(text('div',highest===null?'None':'Level '+highest,'bigscore'));
+  out.append(text('div',highest===20?'MAXIMUM LEVEL CONQUERED':highest===null?'THE HEROES HELD THE LINE':'HIGHEST LEVEL DEFEATED','title'));
+  out.append(text('p',highest===null?'Your boss did not defeat any party level from 5–20.':`Your boss defeated level ${highest} with at least a 65% win rate.`, 'muted'));
+  out.append(text('p','3,200 seeded battles · 200 per party level · Levels 5–20','muted'));
+  bars(out,results);
+  out.append(text('p','A level is defeated when the boss wins at least 65% of its trials. This is a simplified fantasy arcade simulation, not an official D&D difficulty rating.','notice'));
+  $('result').scrollIntoView({behavior:'smooth',block:'start'});
+  $('busy').textContent='Challenge complete!';
+ }catch(e){$('busy').textContent='Challenge error: '+e.message}
+ finally{busy=false;render()}
+}
+$('offlineCopy').onclick=downloadOfflineCopy;$('retrySRD').onclick=loadSRD;$('useDemo').onclick=()=>{monsters=demoMonsters;poolReady=true;$('sourceStatus').textContent='Playing with 8 original demo monsters. SRD collection not loaded.';$('useDemo').classList.add('hidden');render()};$('spin').onclick=()=>roll();$('accept').onclick=()=>{if(!pending)return;slots[pending.slot]=pending;pending=null;render();if(complete())runChallenge()};$('reroll').onclick=()=>{if(!pending||!rerolls)return;rerolls--;roll(true)};$('restart').onclick=restart;restart();if(!loadEmbedded()&&!useCachedSRD())loadSRD();
+</script></body></html>
