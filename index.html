@@ -139,7 +139,24 @@ function drawTwo(slot,excluded=[]){
  const second=(secondPool.length?pick(forgeRng,secondPool):fallback.length?pick(forgeRng,fallback):null);
  return second?[first,second]:[first];
 }
-function render(){const count=Object.keys(slots).length;$('count').textContent=count+' / 16';$('progress').style.width=(count/16*100)+'%';$('slots').replaceChildren();names.forEach((name,i)=>{const div=document.createElement('div');div.className='slot'+(slots[i]?' filled':'');const small=document.createElement('small');small.textContent=name;const b=document.createElement('b');b.textContent=slots[i]?slots[i].monster.name+' · '+describe(i,slots[i].monster):'—';div.append(small,b);$('slots').append(div)});$('spin').disabled=!!pending||complete()||busy||!poolReady||reelAnimating;$('accept').disabled=!pending||pending.selected===null||busy||reelAnimating;const available=names.map((_,i)=>i).filter(i=>!slots[i]);$('rerollMonster').disabled=!pending||!rerolls||busy||reelAnimating||monsters.filter(m=>hasTrait(pending.slot,m)&&!pending.options.some(x=>x.name===m.name)).length<1;$('rerollTrait').disabled=!pending||!rerolls||busy||reelAnimating||available.filter(i=>i!==pending?.slot&&availableForSlot(i,pending.options)).length===0;$('rerollMonster').textContent='Respin 2 Monsters ('+rerolls+' left)';$('rerollTrait').textContent='Respin Trait ('+rerolls+' left)';if(complete()&&!pending){$('roll').innerHTML='<div class="tag">Forge complete</div><strong>Your boss is ready</strong><span class="muted">Your challenge begins automatically!</span>'}}
+function adjustedTrait(slot){
+ if(!slots[slot])return '';
+ const full=complete();const boss=full?makeBoss().b:null;
+ if(slot===0&&!full)return 'Strength damage bonus: +'+Math.max(0,abilityMod(slots[0].monster.stats[0]));
+ if(slot===1&&!full)return 'DEX adjustment to AC: '+(abilityMod(slots[1].monster.stats[1])>=0?'+':'')+abilityMod(slots[1].monster.stats[1]);
+ if(slot===2&&!full)return 'CON bonus HP: +'+Math.max(0,abilityMod(slots[2].monster.stats[2]))*10;
+ if(slot===9&&!full)return 'Boss attack bonus: +15 to hit (STR damage bonus applied when selected)';
+ if(!full)return '';
+ if(slot===0)return 'Adjusted attack damage: '+boss.dice+'d'+boss.sides+(boss.flat>=0?' + ':' − ')+Math.abs(boss.flat)+' per hit (STR adds +'+boss.strMod+')';
+ if(slot===1)return 'Adjusted Armor Class: '+boss.ac+' (DEX '+(abilityMod(slots[1].monster.stats[1])>=0?'+':'')+abilityMod(slots[1].monster.stats[1])+')';
+ if(slot===2)return 'Adjusted HP: '+boss.maxHp+' (CON adds '+Math.max(0,abilityMod(slots[2].monster.stats[2]))*10+')';
+ if(slot===9)return 'Adjusted attack: +15 to hit · '+boss.dice+'d'+boss.sides+(boss.flat>=0?' + ':' − ')+Math.abs(boss.flat)+' damage · '+boss.attacks+' attack(s)';
+ if(slot===3)return 'Intelligence planning modifier: '+(boss.intMod>=0?'+':'')+boss.intMod;
+ if(slot===4)return 'Wisdom threat-reading modifier: '+(boss.wisMod>=0?'+':'')+boss.wisMod;
+ if(slot===5)return 'Charisma intimidation modifier: '+(boss.chaMod>=0?'+':'')+boss.chaMod;
+ return '';
+}
+function render(){const count=Object.keys(slots).length;$('count').textContent=count+' / 16';$('progress').style.width=(count/16*100)+'%';$('slots').replaceChildren();names.forEach((name,i)=>{const div=document.createElement('div');div.className='slot'+(slots[i]?' filled':'');const small=document.createElement('small');small.textContent=name;const b=document.createElement('b');b.textContent=slots[i]?slots[i].monster.name+' · '+describe(i,slots[i].monster):'—';div.append(small,b);if(slots[i]){const adjusted=adjustedTrait(i);if(adjusted){const detail=document.createElement('small');detail.className='muted';detail.textContent=adjusted;div.append(detail)}}$('slots').append(div)});$('spin').disabled=!!pending||complete()||busy||!poolReady||reelAnimating;$('accept').disabled=!pending||pending.selected===null||busy||reelAnimating;const available=names.map((_,i)=>i).filter(i=>!slots[i]);$('rerollMonster').disabled=!pending||!rerolls||busy||reelAnimating||monsters.filter(m=>hasTrait(pending.slot,m)&&!pending.options.some(x=>x.name===m.name)).length<1;$('rerollTrait').disabled=!pending||!rerolls||busy||reelAnimating||available.filter(i=>i!==pending?.slot&&availableForSlot(i,pending.options)).length===0;$('rerollMonster').textContent='Respin 2 Monsters ('+rerolls+' left)';$('rerollTrait').textContent='Respin Trait ('+rerolls+' left)';if(complete()&&!pending){$('roll').innerHTML='<div class="tag">Forge complete</div><strong>Your boss is ready</strong><span class="muted">Your challenge begins automatically!</span>'}}
 let reelTimer=null;let reelAnimating=false;
 function displayRoll(animate=false){
  if(!pending)return;
@@ -224,6 +241,25 @@ function trials(level,seed,count){let boss=0,heroes=0,draw=0,rounds=0;for(let i=
 function text(tag,content,cls=''){const e=document.createElement(tag);e.textContent=content;e.className=cls;return e}function show(title){$('resultTitle').textContent=title;$('result').classList.remove('hidden');$('resultBody').replaceChildren();return $('resultBody')}
 function bars(out,results){for(const x of results){const row=text('div','','barrow');row.append(text('span','Lv '+x.level));const bar=text('div','','bar');const fill=document.createElement('i');fill.style.width=(x.rate*100).toFixed(1)+'%';bar.append(fill);row.append(bar,text('b',Math.round(x.rate*100)+'%'));out.append(row)}}
 function titleFor(score){return score>=90?'Apocalypse':score>=75?'Worldbreaker':score>=60?'Legendary Menace':score>=45?'Dread Tyrant':score>=30?'Dungeon Terror':score>=15?'Dangerous Foe':'Rising Threat'}
+function learningFeedback(results){
+ const failure=results.find(x=>x.rate<.65);
+ if(!failure)return ['You conquered every level; there is no failed party to diagnose.'];
+ const level=failure.level,b=makeBoss().b;
+ const heroStats=['Fighter','Wizard','Cleric','Rogue'].map(role=>hero(role,level));
+ const tier=Math.max(0,Math.min(1,Math.pow((level-5)/15,.78)));
+ const enemyAC=Math.max(...heroStats.map(h=>h.ac+Math.round(5*tier)));
+ const expectedDamage=b.attacks*(b.dice*(b.sides+1)/2+b.flat)*Math.max(.05,Math.min(.95,(21+b.bonus-enemyAC)/20));
+ const minion=slots[13].monster;
+ const reasons=[];
+ if(expectedDamage<Math.max(25,level*3.5))reasons.push('Damage pressure: your adjusted attack averages about '+Math.round(expectedDamage)+' damage per round against the toughest hero AC at level '+level+'. Look for stronger attack damage or more attacks; Strength increases damage but not accuracy.');
+ else reasons.push('Damage consistency: the party survives repeated attacks at level '+level+'. Compare attack dice, number of attacks, and your Strength damage bonus; +15 to hit does not guarantee a hit.');
+ if(b.maxHp<100+level*16)reasons.push('Survivability: your boss has '+b.maxHp+' adjusted HP and '+b.ac+' AC. Higher Constitution, base HP, AC, or defenses could help withstand the party’s scaling damage.');
+ else reasons.push('Defensive matchup: even with '+b.maxHp+' HP and '+b.ac+' AC, higher-level heroes gain accuracy, damage, and spells. Consider resistances or stronger defenses.');
+ if(minion.hp<level*5)reasons.push('Minion durability: your eight '+minion.name+' minions have '+minion.hp+' HP each. The Wizard’s area attacks can clear weaker minions quickly; consider tougher CR 2–7 minions.');
+ else if(b.intMod<2||b.wisMod<2)reasons.push('Targeting decisions: Intelligence '+slots[3].monster.stats[3]+' and Wisdom '+slots[4].monster.stats[4]+' affect focus fire and threat recognition. Better scores help the boss prioritize dangerous heroes.');
+ else reasons.push('Party recovery and control: the Cleric can heal and the Wizard can damage multiple targets. Better burst damage or stronger special powers may help defeat them before they recover.');
+ return reasons;
+}
 async function runChallenge(){
  if(busy||!complete())return;
  busy=true;render();$('result').classList.add('hidden');
@@ -242,6 +278,14 @@ async function runChallenge(){
   out.append(text('p',highest===null?'Your boss did not defeat any party level from 5–20.':`Your boss defeated level ${highest} with at least a 65% win rate.`, 'muted'));
   out.append(text('p','3,200 seeded battles · 200 per party level · Levels 5–20','muted'));
   bars(out,results);
+  const reasons=learningFeedback(results);
+  const learning=document.createElement('div');learning.className='notice';
+  learning.append(text('strong',reasons.length===1?'Build review':'Three ways to improve your next build'));
+  const list=document.createElement('ol');
+  for(const reason of reasons)list.append(text('li',reason));
+  learning.append(list);
+  learning.append(text('small','These are rule-based coaching tips from your stats and the first party level below 65% wins, not verified causes of individual battle losses.'));
+  out.append(learning);
   out.append(text('p','A level is defeated when the boss wins at least 65% of its trials. This is a simplified fantasy arcade simulation, not an official D&D difficulty rating.','notice'));
   $('result').scrollIntoView({behavior:'smooth',block:'start'});
   $('busy').textContent='Challenge complete!';
