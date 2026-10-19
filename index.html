@@ -27,8 +27,8 @@ button:focus-visible,.monster-option:focus-visible{outline:3px solid var(--accen
 .forge-instructions li strong{color:#fff}
 .forge-instructions .instructions-tip{font-size:13px;line-height:1.5;background:#332936;border-radius:9px;padding:11px 12px;margin:16px 0 0;color:#e3d9e1}
 @media(max-width:540px){.forge-instructions{padding:13px}.forge-instructions li{font-size:14px}}
-</style></head><body><main><header><div><div class="eyebrow">SPIN · BUILD · CONQUER</div><h1>BUILD A BOSS</h1><div class="muted">The TPK Challenge · Spin for powers. Forge your villain. Wipe out the party.</div></div><button class="secondary" id="restart">New Boss</button></header><div class="layout"><section><div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2>The Forge</h2><span id="count" class="muted">0 / 16</span></div><div class="progress"><div id="progress" style="width:0"></div></div><div class="forge-instructions" aria-label="How to play"><h3>How to Play</h3><ol><li><strong>Spin the Forge.</strong> Get two monster-and-trait offers.</li><li><strong>Pick your favorite.</strong> Tap a monster, then select <em>Keep Selected Monster</em> to add its trait to your boss.</li><li><strong>Use respins wisely.</strong> You have <strong>5 total</strong> to change monsters, traits, or both. All three respin buttons share the same pool.</li><li><strong>Fill all 16 trait slots.</strong> Look for strong traits and combinations that activate synergies. Your boss also commands eight CR 2–7 minions.</li><li><strong>Face the party.</strong> Your finished boss automatically battles the Fighter, Wizard, Cleric, and Rogue at levels 5–20. Win at least <strong>65%</strong> of a level’s 200 battles to defeat it.</li><li><strong>Climb the leaderboard.</strong> Check your personal and global rankings after the challenge.</li></ol><p class="instructions-tip"><strong>Tip:</strong> Your boss starts with 100 HP, plus its HP trait and Constitution bonus. On the final spin, both offers compete for the last remaining trait.</p></div><div class="mode-toggle"><label for="hardMode"><input type="checkbox" id="hardMode"> <span><strong>Hard Mode</strong><small>Monster names only during spins. Trait values are revealed after you keep a monster.</small></span></label></div><div id="roll" class="roll"><div class="tag">Ready to forge</div><strong>Spin for your first two offers</strong><span class="muted">16 slots. Two different traits to choose from each spin.</span></div><div class="buttonrow"><button id="spin">Spin the Forge</button><button id="accept" class="secondary" disabled>Keep Selected Monster</button><button id="rerollMonster" class="secondary" disabled>Respin Monsters (5 left)</button><button id="rerollTrait" class="secondary" disabled>Respin Offers (5 left)</button><button id="rerollTraitsOnly" class="secondary" disabled>Respin Traits Only (5 left)</button></div><div id="forgeError" class="error"></div><p id="sourceStatus" class="notice" aria-live="polite">Preparing SRD 5.2.1 monsters…</p><div class="buttonrow"><button class="secondary hidden" id="retrySRD">Retry SRD Load</button><button class="secondary hidden" id="useDemo">Play Demo Pool</button><button class="secondary hidden" id="offlineCopy">Download Fully Offline Game</button></div></div><div class="card"><h2>Your Monster</h2><div id="tierLegend" class="tier-key"></div><div id="synergyPanel"></div><div id="bossIdentity" class="hidden"></div><div id="slots" class="slots"></div></div></section><aside><div class="card"><h2>Boss Challenge</h2><p class="muted">Finish all 16 traits to automatically battle the Fighter, Wizard, Cleric, and Rogue at every party level from <strong>5 to 20</strong>.</p><p class="muted">Each level gets 200 seeded battles. Your boss defeats a level by winning at least 65% of them. See how high your creation can climb!</p><p id="busy" class="notice" aria-live="polite">Complete the forge to start the challenge.</p></div><div class="card hidden" id="result"><h2 id="resultTitle">Battle Results</h2><div id="resultBody"></div></div><div class="card" id="leaderboardCard"><h2>🏆 Leaderboards</h2><p class="muted">Daily · Weekly · Monthly · All-Time</p><div class="leaderboard-tabs" id="leaderboardScope"></div><div class="leaderboard-tabs" id="leaderboardPeriod"></div><div class="leaderboard-controls"><input id="leaderboardPlayer" maxlength="24" placeholder="Your player name" aria-label="Leaderboard player name"><button id="leaderboardSaveName" type="button">Save Name</button><button id="leaderboardRefresh" type="button">Refresh</button></div><div id="leaderboardStatus" class="leaderboard-note"></div><div id="leaderboardRows"></div><p class="leaderboard-note">Personal scores are saved on this browser. Global scores require an online leaderboard service; client-submitted scores are unverified until server-side validation is configured.</p></div>
-<div class="card" id="hall"><h2>🏆 Hall of Infamy</h2><p class="muted">Achievements stay unlocked on this browser. They give bragging rights, not combat bonuses.</p><div id="achievementSummary" class="notice"></div><div class="buttonrow" style="margin:12px 0"><button class="secondary" id="toggleHall" aria-expanded="false">View achievements</button></div><div id="hallContents" class="hidden"></div></div><div class="card"><h2>How the challenge works</h2><p class="muted">Your boss automatically fights parties at levels 5–20, with 200 battles per level (3,200 total). Winning at least 65% of battles defeats that level. Your result is the highest level defeated, with a full breakdown below.</p><p class="notice">This is an original D&D-inspired arcade game, not an official D&D rules simulator. All 322 SRD 5.2.1 monster profiles are bundled directly into the game. No external download is required. You can also save a standalone copy for offline play. Combat abilities are simplified for Arcade play.</p></div></aside></div><footer>Build a Boss — The TPK Challenge · 322 SRD 5.2.1 monsters bundled · Fully offline · Arcade mechanics are simplified · CC BY 4.0 attribution below<div class="notice">D&D System Reference Document 5.2.1 © Wizards of the Coast LLC, used under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color:#e9aa65">CC BY 4.0</a>. Source: <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener" style="color:#e9aa65">official SRD</a>. Structured data from <a href="https://github.com/adkinn/srd-5.2.1" target="_blank" rel="noopener" style="color:#e9aa65">adkinn/srd-5.2.1</a> via Open5e. Build a Boss is unofficial and not endorsed by Wizards of the Coast.</div></footer></main><script>
+.achievement-filters{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.achievement-filters button{padding:6px 10px;font-size:12px}.achievement-filters button.selected{background:#a62b3a;border-color:#f06372}.achievement .rarity{font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-top:7px}.rarity.common{color:#aeb7c5}.rarity.rare{color:#70b7f5}.rarity.epic{color:#bd8bf7}.rarity.legendary{color:#ff6575}</style></head><body><main><header><div><div class="eyebrow">SPIN · BUILD · CONQUER</div><h1>BUILD A BOSS</h1><div class="muted">The TPK Challenge · Spin for powers. Forge your villain. Wipe out the party.</div></div><button class="secondary" id="restart">New Boss</button></header><div class="layout"><section><div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2>The Forge</h2><span id="count" class="muted">0 / 16</span></div><div class="progress"><div id="progress" style="width:0"></div></div><div class="forge-instructions" aria-label="How to play"><h3>How to Play</h3><ol><li><strong>Spin the Forge.</strong> Get two monster-and-trait offers.</li><li><strong>Pick your favorite.</strong> Tap a monster, then select <em>Keep Selected Monster</em> to add its trait to your boss.</li><li><strong>Use respins wisely.</strong> You have <strong>5 total</strong> to change monsters, traits, or both. All three respin buttons share the same pool.</li><li><strong>Fill all 16 trait slots.</strong> Look for strong traits and combinations that activate synergies. Your boss also commands eight CR 2–7 minions.</li><li><strong>Face the party.</strong> Your finished boss automatically battles the Fighter, Wizard, Cleric, and Rogue at levels 5–20. Win at least <strong>65%</strong> of a level’s 200 battles to defeat it.</li><li><strong>Climb the leaderboard.</strong> Check your personal and global rankings after the challenge.</li></ol><p class="instructions-tip"><strong>Tip:</strong> Your boss starts with 100 HP, plus its HP trait and Constitution bonus. On the final spin, both offers compete for the last remaining trait.</p></div><div class="mode-toggle"><label for="hardMode"><input type="checkbox" id="hardMode"> <span><strong>Hard Mode</strong><small>Monster names only during spins. Trait values are revealed after you keep a monster.</small></span></label></div><div id="roll" class="roll"><div class="tag">Ready to forge</div><strong>Spin for your first two offers</strong><span class="muted">16 slots. Two different traits to choose from each spin.</span></div><div class="buttonrow"><button id="spin">Spin the Forge</button><button id="accept" class="secondary" disabled>Keep Selected Monster</button><button id="rerollMonster" class="secondary" disabled>Respin Monsters (5 left)</button><button id="rerollTrait" class="secondary" disabled>Respin Offers (5 left)</button><button id="rerollTraitsOnly" class="secondary" disabled>Respin Traits Only (5 left)</button></div><div id="forgeError" class="error"></div><p id="sourceStatus" class="notice" aria-live="polite">Preparing SRD 5.2.1 monsters…</p><div class="buttonrow"><button class="secondary hidden" id="retrySRD">Retry SRD Load</button><button class="secondary hidden" id="useDemo">Play Demo Pool</button><button class="secondary hidden" id="offlineCopy">Download Fully Offline Game</button></div></div><div class="card"><h2>Your Monster</h2><div id="tierLegend" class="tier-key"></div><div id="synergyPanel"></div><div id="bossIdentity" class="hidden"></div><div id="slots" class="slots"></div></div></section><aside><div class="card"><h2>Boss Challenge</h2><p class="muted">Finish all 16 traits to automatically battle the Fighter, Wizard, Cleric, and Rogue at every party level from <strong>5 to 20</strong>.</p><p class="muted">Each level gets 200 seeded battles. Your boss defeats a level by winning at least 65% of them. See how high your creation can climb!</p><p id="busy" class="notice" aria-live="polite">Complete the forge to start the challenge.</p></div><div class="card hidden" id="result"><h2 id="resultTitle">Battle Results</h2><div id="resultBody"></div></div><div class="card" id="leaderboardCard"><h2>🏆 Leaderboards</h2><p class="muted">Daily · Weekly · Monthly · All-Time</p><div class="leaderboard-tabs" id="leaderboardScope"></div><div class="leaderboard-tabs" id="leaderboardPeriod"></div><div class="leaderboard-controls"><input id="leaderboardPlayer" maxlength="24" placeholder="Your player name" aria-label="Leaderboard player name"><button id="leaderboardSaveName" type="button">Save Name</button><button id="leaderboardRefresh" type="button">Refresh</button></div><div id="leaderboardStatus" class="leaderboard-note"></div><div id="leaderboardRows"></div><p class="leaderboard-note">Personal scores are saved on this browser. Global scores require an online leaderboard service; client-submitted scores are unverified until server-side validation is configured.</p></div>
+<div class="card" id="hall"><h2>🏆 Hall of Infamy</h2><p class="muted">Achievements stay unlocked on this browser. They give bragging rights, not combat bonuses.</p><div id="achievementSummary" class="notice"></div><div class="achievement-filters" id="achievementFilters"></div><div class="buttonrow" style="margin:12px 0"><button class="secondary" id="toggleHall" aria-expanded="false">View achievements</button></div><div id="hallContents" class="hidden"></div></div><div class="card"><h2>How the challenge works</h2><p class="muted">Your boss automatically fights parties at levels 5–20, with 200 battles per level (3,200 total). Winning at least 65% of battles defeats that level. Your result is the highest level defeated, with a full breakdown below.</p><p class="notice">This is an original D&D-inspired arcade game, not an official D&D rules simulator. All 322 SRD 5.2.1 monster profiles are bundled directly into the game. No external download is required. You can also save a standalone copy for offline play. Combat abilities are simplified for Arcade play.</p></div></aside></div><footer>Build a Boss — The TPK Challenge · 322 SRD 5.2.1 monsters bundled · Fully offline · Arcade mechanics are simplified · CC BY 4.0 attribution below<div class="notice">D&D System Reference Document 5.2.1 © Wizards of the Coast LLC, used under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color:#e9aa65">CC BY 4.0</a>. Source: <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener" style="color:#e9aa65">official SRD</a>. Structured data from <a href="https://github.com/adkinn/srd-5.2.1" target="_blank" rel="noopener" style="color:#e9aa65">adkinn/srd-5.2.1</a> via Open5e. Build a Boss is unofficial and not endorsed by Wizards of the Coast.</div></footer></main><script>
 'use strict';
 const names=['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma','HP','AC','Defensive Traits','Attacks','Special Abilities','Spellcasting','Legendary Powers','Minions','Mobility','Senses'];
 const demoMonsters=[
@@ -392,11 +392,11 @@ function battle(level,seed,withLog=false,track=false){const r=rng(seed),{b,minio
 // Smoothly scales difficulty without changing monster rolls or the forge.
 const tier=Math.max(0,Math.min(1,Math.pow((level-5)/15,0.78)));
 for(const h of heroes){h.hp=Math.round(h.hp*(1+1.05*tier));h.maxHp=h.hp;h.ac+=Math.round(5*tier);h.bonus+=Math.round(6*tier);h.flat+=Math.round(9*tier);if(level>=13&&h.name==='Rogue')h.attacks+=1;if(level>=17&&h.name==='Fighter')h.attacks+=1;}
-let heals=2+Math.floor(level/3)+Math.floor(3*tier),bursts=1+Math.floor(level/4)+Math.floor(3*tier),recharge=true;const log=[];function note(round,text){if(withLog&&log.length<180)log.push('Round '+round+' · '+text)}for(let round=1;round<=20;round++){
+let heals=2+Math.floor(level/3)+Math.floor(3*tier),bursts=1+Math.floor(level/4)+Math.floor(3*tier),recharge=true;const log=[];function finish(winner,round){return {winner,round,log,metrics,bossHp:b.hp,minionsRemaining:minions.filter(x=>x.alive).length,heroesRemaining:heroes.filter(x=>x.alive).length}}function note(round,text){if(withLog&&log.length<180)log.push('Round '+round+' · '+text)}for(let round=1;round<=20;round++){
  // Charisma is a small, one-round intimidation effect, never an extra attack.
  const intimidated=round===1&&r()<clamp(.08+Math.max(0,b.chaMod)*.025,0,.25);
  if(intimidated){for(const h of heroes)h.bonus-=1;note(round,'Boss intimidates the party (-1 to hero attacks this round)')}
- for(const h of heroes){if(!h.alive||!b.alive)continue;if(h.name==='Cleric'&&heals){const injured=heroes.filter(u=>u.alive&&u.hp/u.maxHp<.45).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp)[0];if(injured){const amt=Math.min(injured.maxHp-injured.hp,8+level*3+integer(r,1,8));injured.hp+=amt;if(metrics){metrics.healing+=amt;metrics.heroHealing[h.name]=(metrics.heroHealing[h.name]||0)+amt}heals--;note(round,'Cleric heals '+injured.name+' for '+amt);continue}}if(h.name==='Wizard'&&bursts&&level>=5){const foes=[b,...minions].filter(u=>u.alive);let dmg=0;for(let i=0;i<5+Math.floor(level/3);i++)dmg+=integer(r,1,6);for(const foe of foes.slice(0,5)){const actual=foe.immune.includes('fire')?0:foe.resist.includes('fire')?Math.floor(dmg/2):dmg;const dealt=Math.min(foe.hp,actual);foe.hp=Math.max(0,foe.hp-actual);foe.alive=foe.hp>0;if(metrics){metrics.heroes+=dealt;metrics.wizardArea+=dealt;metrics.heroDamage[h.name]=(metrics.heroDamage[h.name]||0)+dealt}}bursts--;note(round,'Wizard blasts '+Math.min(5,foes.length)+' foes for up to '+dmg);continue}const t=target(minions)||(b.alive?b:null);if(t){let damage=0;for(let i=0;i<h.attacks;i++)damage+=attack(h,t,r,1,h.name==='Wizard'?'force':'physical',metrics);note(round,h.name+' hits '+t.name+' for '+damage)}}if(intimidated)for(const h of heroes)h.bonus+=1;if(!b.alive)return{winner:'heroes',round,log,metrics};if(!heroes.some(h=>h.alive))return{winner:'boss',round,log,metrics};if(aoe&&recharge&&round>=2){const damage=Math.max(8,Math.round((b.dice*(b.sides+1)/2+b.flat+level/2)*multiplier('area')));for(const h of heroes){if(!h.alive)continue;const amt=integer(r,1,20)+2+Math.floor(level/5)<12+Math.floor(b.bonus/2)?damage:Math.floor(damage/2);const dealt=Math.min(h.hp,amt);h.hp=Math.max(0,h.hp-amt);h.alive=h.hp>0;if(metrics){metrics.boss+=dealt;metrics.bossArea+=dealt}}recharge=false;note(round,'Boss unleashes area power')}else{const t=bossTarget(heroes,b,r,bursts,heals);if(t){let damage=0;for(let i=0;i<b.attacks;i++)damage+=attack(b,t,r,multiplier('damage'),'physical',metrics);note(round,'Boss strikes '+t.name+' for '+damage)}}if(!recharge&&integer(r,1,6)>=5)recharge=true;if(caster&&round%3===0){const t=bossTarget(heroes,b,r,bursts,heals);if(t){const dmg=Math.round((integer(r,6,12)+b.bonus)*multiplier('spell'));const dealt=Math.min(t.hp,dmg);t.hp=Math.max(0,t.hp-dmg);t.alive=t.hp>0;if(metrics){metrics.boss+=dealt;metrics.bossSpell+=dealt}note(round,'Boss channels magic at '+t.name+' for '+dmg)}}for(let i=0;i<legend;i++){const t=bossTarget(heroes,b,r,bursts,heals);if(t&&b.alive)attack(b,t,r,.5*multiplier('damage'),'physical',metrics)}for(const m of minions){if(!m.alive)continue;const t=target(heroes);if(t)for(let i=0;i<m.attacks;i++)attack(m,t,r,multiplier('minion'),'physical',metrics)}if(!heroes.some(h=>h.alive))return{winner:'boss',round,log,metrics}}return{winner:'draw',round:20,log,metrics}}
+ for(const h of heroes){if(!h.alive||!b.alive)continue;if(h.name==='Cleric'&&heals){const injured=heroes.filter(u=>u.alive&&u.hp/u.maxHp<.45).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp)[0];if(injured){const amt=Math.min(injured.maxHp-injured.hp,8+level*3+integer(r,1,8));injured.hp+=amt;if(metrics){metrics.healing+=amt;metrics.heroHealing[h.name]=(metrics.heroHealing[h.name]||0)+amt}heals--;note(round,'Cleric heals '+injured.name+' for '+amt);continue}}if(h.name==='Wizard'&&bursts&&level>=5){const foes=[b,...minions].filter(u=>u.alive);let dmg=0;for(let i=0;i<5+Math.floor(level/3);i++)dmg+=integer(r,1,6);for(const foe of foes.slice(0,5)){const actual=foe.immune.includes('fire')?0:foe.resist.includes('fire')?Math.floor(dmg/2):dmg;const dealt=Math.min(foe.hp,actual);foe.hp=Math.max(0,foe.hp-actual);foe.alive=foe.hp>0;if(metrics){metrics.heroes+=dealt;metrics.wizardArea+=dealt;metrics.heroDamage[h.name]=(metrics.heroDamage[h.name]||0)+dealt}}bursts--;note(round,'Wizard blasts '+Math.min(5,foes.length)+' foes for up to '+dmg);continue}const t=target(minions)||(b.alive?b:null);if(t){let damage=0;for(let i=0;i<h.attacks;i++)damage+=attack(h,t,r,1,h.name==='Wizard'?'force':'physical',metrics);note(round,h.name+' hits '+t.name+' for '+damage)}}if(intimidated)for(const h of heroes)h.bonus+=1;if(!b.alive)return finish('heroes',round);if(!heroes.some(h=>h.alive))return finish('boss',round);if(aoe&&recharge&&round>=2){const damage=Math.max(8,Math.round((b.dice*(b.sides+1)/2+b.flat+level/2)*multiplier('area')));for(const h of heroes){if(!h.alive)continue;const amt=integer(r,1,20)+2+Math.floor(level/5)<12+Math.floor(b.bonus/2)?damage:Math.floor(damage/2);const dealt=Math.min(h.hp,amt);h.hp=Math.max(0,h.hp-amt);h.alive=h.hp>0;if(metrics){metrics.boss+=dealt;metrics.bossArea+=dealt}}recharge=false;note(round,'Boss unleashes area power')}else{const t=bossTarget(heroes,b,r,bursts,heals);if(t){let damage=0;for(let i=0;i<b.attacks;i++)damage+=attack(b,t,r,multiplier('damage'),'physical',metrics);note(round,'Boss strikes '+t.name+' for '+damage)}}if(!recharge&&integer(r,1,6)>=5)recharge=true;if(caster&&round%3===0){const t=bossTarget(heroes,b,r,bursts,heals);if(t){const dmg=Math.round((integer(r,6,12)+b.bonus)*multiplier('spell'));const dealt=Math.min(t.hp,dmg);t.hp=Math.max(0,t.hp-dmg);t.alive=t.hp>0;if(metrics){metrics.boss+=dealt;metrics.bossSpell+=dealt}note(round,'Boss channels magic at '+t.name+' for '+dmg)}}for(let i=0;i<legend;i++){const t=bossTarget(heroes,b,r,bursts,heals);if(t&&b.alive)attack(b,t,r,.5*multiplier('damage'),'physical',metrics)}for(const m of minions){if(!m.alive)continue;const t=target(heroes);if(t)for(let i=0;i<m.attacks;i++)attack(m,t,r,multiplier('minion'),'physical',metrics)}if(!heroes.some(h=>h.alive))return finish('boss',round)}return finish('draw',20)}
 function trials(level,seed,count){let boss=0,heroes=0,draw=0,rounds=0;for(let i=0;i<count;i++){const result=battle(level,(seed+Math.imul(i,1000003))>>>0);if(result.winner==='boss')boss++;else if(result.winner==='heroes')heroes++;else draw++;rounds+=result.round}return{level,boss,heroes,draw,rate:boss/count,rounds:rounds/count}}
 function text(tag,content,cls=''){const e=document.createElement(tag);e.textContent=content;e.className=cls;return e}function show(title){$('resultTitle').textContent=title;$('result').classList.remove('hidden');$('resultBody').replaceChildren();return $('resultBody')}
 function bars(out,results){for(const x of results){const row=text('div','','barrow');row.append(text('span','Lv '+x.level));const bar=text('div','','bar');const fill=document.createElement('i');fill.style.width=(x.rate*100).toFixed(1)+'%';bar.append(fill);row.append(bar,text('b',Math.round(x.rate*100)+'%'));out.append(row)}}
@@ -483,26 +483,102 @@ function refreshResultBossName(){
 }
 function learningFeedback(results){
  const failure=results.find(x=>x.rate<.65);
- if(!failure)return ['You conquered every level; there is no failed party to diagnose.'];
- const level=failure.level,b=makeBoss().b;
+ const level=failure?.level||20;
+ const {b,minions,aoe,caster,legend}=makeBoss();
  const heroStats=['Fighter','Wizard','Cleric','Rogue'].map(role=>hero(role,level));
- const tier=Math.max(0,Math.min(1,Math.pow((level-5)/15,.78)));
- const enemyAC=Math.max(...heroStats.map(h=>h.ac+Math.round(5*tier)));
- const expectedDamage=b.attacks*(b.dice*(b.sides+1)/2+b.flat)*Math.max(.05,Math.min(.95,(21+b.bonus-enemyAC)/20));
- const minion=slots[13].monster;
- const reasons=[];
- if(expectedDamage<Math.max(25,level*3.5))reasons.push('Damage pressure: your adjusted attack averages about '+Math.round(expectedDamage)+' damage per round against the toughest hero AC at level '+level+'. Look for stronger attack damage or more attacks; Strength increases damage but not accuracy.');
- else reasons.push('Damage consistency: the party survives repeated attacks at level '+level+'. Compare attack dice, number of attacks, and your Strength damage bonus; +15 to hit does not guarantee a hit.');
- if(b.maxHp<100+level*16)reasons.push('Survivability: your boss has '+b.maxHp+' adjusted HP and '+b.ac+' AC. Higher Constitution, base HP, AC, or defenses could help withstand the party’s scaling damage.');
- else reasons.push('Defensive matchup: even with '+b.maxHp+' HP and '+b.ac+' AC, higher-level heroes gain accuracy, damage, and spells. Consider resistances or stronger defenses.');
- if(minion.hp<level*5)reasons.push('Minion durability: your eight '+minion.name+' minions have '+minion.hp+' HP each. The Wizard’s area attacks can clear weaker minions quickly; consider tougher CR 2–7 minions.');
- else if(b.intMod<2||b.wisMod<2)reasons.push('Targeting decisions: Intelligence '+slots[3].monster.stats[3]+' and Wisdom '+slots[4].monster.stats[4]+' affect focus fire and threat recognition. Better scores help the boss prioritize dangerous heroes.');
- else reasons.push('Party recovery and control: the Cleric can heal and the Wizard can damage multiple targets. Better burst damage or stronger special powers may help defeat them before they recover.');
- return reasons;
+ const enemyAC=Math.max(...heroStats.map(h=>h.ac));
+ const hitChance=Math.max(.05,Math.min(.95,(21+b.bonus-enemyAC)/20));
+ const attackDamage=b.attacks*(b.dice*(b.sides+1)/2+b.flat)*hitChance;
+ const m=slots[13].monster;
+ const active=synergies().map(x=>x[0]);
+ const suggestions=[];
+ const add=(group,priority,condition,message)=>{if(condition)suggestions.push({group,priority,message})};
+ // Recommendations are based on forged traits and the rules of this arcade simulator.
+ add('offense',95,attackDamage<level*3.5,'Increase your attack power: this boss is estimated to deal about '+Math.round(attackDamage)+' damage per round against a high-AC hero at level '+level+'. Prioritize attack dice, damage bonuses, and multiple attacks.');
+ add('offense',85,b.attacks===1,'Your boss attacks only once per turn. A multiattack trait gives more chances to land damage and finish a hero before the Cleric heals.');
+ add('offense',80,b.attacks===2,'Look for a three-or-more-attack monster when selecting Attack Power. More attacks improve sustained damage against the four-person party.');
+ add('offense',70,b.dice*(b.sides+1)/2+b.flat<18,'Your attacks have a low average hit value. Prioritize a monster with larger damage dice or a higher flat damage bonus for Attack Power.');
+ add('offense',67,b.strMod<2,'Strength contributes directly to your boss’s attack damage. A higher-Strength trait improves every successful physical hit.');
+ add('offense',57,b.strMod>=5&&b.attacks<=2,'You already have a strong Strength bonus; focus on adding more attacks to apply that bonus more often.');
+ add('offense',60,b.attacks>=3&&b.strMod<3,'You have several attacks but a modest Strength bonus. Improving Strength increases the payoff from every hit.');
+ add('offense',52,!aoe,'Your boss has no special area attack. Area power can pressure several heroes at once, making it harder for the Cleric to stabilize the party.');
+ add('offense',55,aoe&&b.attacks<=2,'Your special area power helps with groups, but its recharge is uncertain. Stronger regular attacks make turns without a recharge more threatening.');
+ add('offense',48,!caster,'Without spellcasting, your boss relies more on physical attacks and its special power. Look for a spellcasting trait to add another damage source.');
+ add('offense',51,caster&&b.intMod<2,'You have spellcasting but low Intelligence. In this game, Intelligence improves targeting decisions, not spell damage; upgrade it to help aim attacks at dangerous heroes.');
+ add('offense',54,legend<2,'Legendary actions provide extra attacks. A monster with more legendary actions can substantially improve your boss’s damage output.');
+ add('offense',45,legend>=3&&b.attacks<2,'You have strong legendary action economy. Improve the damage of each hit to make both regular and legendary attacks more valuable.');
+ add('defense',98,b.maxHp<100+level*16,'Your boss has '+b.maxHp+' HP at the first difficult party level. Improve the HP trait or Constitution to survive longer against scaling hero damage.');
+ add('defense',88,b.ac<16,'Your boss has only '+b.ac+' AC. A higher armor trait or Dexterity score can reduce incoming weapon hits.');
+ add('defense',82,b.ac>=16&&b.ac<20,'Your '+b.ac+' AC is respectable, but higher-level heroes attack repeatedly. Improving armor or Dexterity can still reduce damage.');
+ add('defense',76,b.maxHp>=100+level*16&&b.ac<18,'You have substantial HP but relatively low AC. More armor helps preserve that health over multiple rounds.');
+ add('defense',72,b.ac>=20&&b.maxHp<220,'Your armor is strong, but your health pool is comparatively thin. Improve HP or Constitution so one burst of damage cannot end the fight.');
+ add('defense',70,abilityMod(slots[2].monster.stats[2])<=0,'Your Constitution trait adds no bonus HP. Each positive Constitution modifier adds 10 HP to the forged boss.');
+ add('defense',65,abilityMod(slots[1].monster.stats[1])<0,'Your Dexterity score is reducing the boss’s final AC. A neutral or positive Dexterity modifier prevents this penalty.');
+ add('defense',64,!active.includes('Deathless Bulwark')&&b.maxHp>=250&&b.ac>=18,'Your boss is already sturdy. Deathless Bulwark can reduce incoming damage if you meet its HP-trait and AC requirements.');
+ add('defense',60,!slots[8].monster.def.resist?.length&&!slots[8].monster.def.immune?.length,'Your defense trait has no listed resistances or immunities. A protective trait may reduce incoming damage when it matches the heroes’ attack types.');
+ add('minions',96,m.hp<level*5,'Your eight '+m.name+' minions have '+m.hp+' HP each. The Wizard can hit several targets with one area spell; choose tougher minions to keep your army fighting.');
+ add('minions',85,m.ac<14,'Your minions have '+m.ac+' AC. Higher-AC minions can withstand more attacks and protect the boss for longer.');
+ add('minions',78,m.atk[4]===1,'Each minion attacks only once. A CR 2–7 minion with multiple attacks can significantly improve your army’s sustained damage.');
+ add('minions',69,m.atk[1]*(m.atk[2]+1)/2+m.atk[3]<10,'Your minions have relatively weak attacks. Look for a minion with stronger damage dice or more attacks.');
+ add('minions',62,m.hp>=level*5&&m.atk[4]<2,'Your minions are fairly durable; prioritize offensive minions next to convert their survival into damage.');
+ add('tactics',91,b.intMod<0,'Your Intelligence modifier is '+b.intMod+'. Low Intelligence makes the boss less consistent at focusing attacks on a vulnerable hero.');
+ add('tactics',84,b.wisMod<0,'Your Wisdom modifier is '+b.wisMod+'. Higher Wisdom helps the boss recognize threats such as the Wizard and healing Cleric.');
+ add('tactics',77,b.intMod>=2&&b.wisMod<2,'Your boss plans reasonably well, but Wisdom is limiting its threat recognition. Improve Wisdom to prioritize the Wizard and Cleric more reliably.');
+ add('tactics',74,b.wisMod>=2&&b.intMod<2,'Your boss recognizes threats but does not consistently execute focused attacks. Improve Intelligence for more reliable target selection.');
+ add('tactics',63,b.chaMod<=0,'A higher Charisma score gives your boss a better chance to intimidate heroes. It is a smaller advantage than raw damage or survivability.');
+ add('synergy',90,active.length===0,'You activated no synergies. During forging, use the Synergy Workshop to complete at least one combination rather than choosing tiers in isolation.');
+ add('synergy',72,active.length===1,'You activated one synergy. Try coordinating two complementary combinations; only the three highest-priority active synergies apply.');
+ add('synergy',58,active.length===2,'You have two active synergies. A third can add another bonus, but prioritize combinations that complement your strongest attack or defense.');
+ add('synergy',45,active.includes('Forbidden Calculus')&&b.intMod<3,'Forbidden Calculus boosts spell damage, but your low Intelligence reduces targeting consistency. Improve Intelligence to support the caster playstyle.');
+ add('synergy',44,active.includes('Legion Commander')&&m.hp<35,'Legion Commander boosts minion damage. Choose more durable minions so they survive long enough to benefit from it.');
+ add('synergy',42,active.includes('Legendary Tempest')&&b.attacks<3,'Legendary Tempest boosts area damage. More powerful regular attacks can cover the turns when the area ability is not available.');
+ // Pick the highest-priority tip in each distinct category first, then fill remaining slots.
+ suggestions.sort((a,b)=>b.priority-a.priority);
+ const chosen=[],used=new Set();
+ for(const tip of suggestions){if(!used.has(tip.group)){chosen.push(tip);used.add(tip.group)}if(chosen.length===3)break}
+ if(chosen.length<3)for(const tip of suggestions){if(!chosen.includes(tip))chosen.push(tip);if(chosen.length===3)break}
+ if(!failure)return ['Your boss conquered all 16 levels! These are optional ways to refine an already successful build:',...chosen.map(x=>x.message)];
+ return chosen.map(x=>x.message);
 }
 
 const ACH_KEY='build_a_boss_hall_of_infamy_v1';
 const ACHIEVEMENTS=[
+ ['bigbrain','Big Brain Energy','Intelligence 20 or higher.','Boss Builds','Rare'],
+ ['muscle','Muscle Mountain','Strength 24 or higher.','Boss Builds','Rare'],
+ ['untouchable','Untouchable','Boss AC 25 or higher.','Boss Builds','Epic'],
+ ['fortress','Walking Fortress','Boss HP 500 or higher.','Boss Builds','Epic'],
+ ['speed','Speed Demon','Speed 60 or higher.','Boss Builds','Rare'],
+ ['fragile','Fragile Fury','Raw attack power 45+ and AC below 16.','Boss Builds','Epic'],
+ ['specimen','The Perfect Specimen','Four or more S-tier traits.','Boss Builds','Epic'],
+ ['daring','Against All Odds II','Qualify at level 15 with four or more D-tier traits.','Luck & Chaos','Legendary'],
+ ['spark','First Spark','Activate one synergy.','Synergies','Common'],
+ ['double','Double Trouble','Activate two synergies.','Synergies','Rare'],
+ ['triple','Master of Synergies','Activate three synergies.','Synergies','Epic'],
+ ['arcarchitect','Arcane Architect','Activate Forbidden Calculus and Arcane Sovereign.','Synergies','Legendary'],
+ ['unstoppable','Unstoppable Force','Activate Adamant Onslaught and Relentless Pursuit.','Synergies','Legendary'],
+ ['bulwark','Immovable Object II','Activate Deathless Bulwark.','Synergies','Rare'],
+ ['tactician','Tactical Genius','Activate Predator’s Insight and Legion Commander.','Synergies','Legendary'],
+ ['firstblood','First Blood','Win the featured battle in one round.','Battle Feats','Rare'],
+ ['totalparty','Total Party Kill','Defeat all four heroes in the featured battle.','Battle Feats','Common'],
+ ['closecall','Close Call','Win the featured battle with less than 10% boss HP.','Battle Feats','Epic'],
+ ['nocasualties','No Casualties','Win the featured battle without losing a minion.','Battle Feats','Rare'],
+ ['darkarmy','Army of Darkness','Minions outdamage the boss in the featured battle.','Battle Feats','Rare'],
+ ['apocalypse','Arcane Apocalypse','Deal 200+ combined spell and area damage in the featured battle.','Battle Feats','Epic'],
+ ['laststanding','The Last One Standing','Win the featured battle after all eight minions fall.','Battle Feats','Legendary'],
+ ['unbreakable','Unbreakable','Win the featured battle after taking 300+ damage.','Battle Feats','Epic'],
+ ['apprentice','Apprentice Slayer','Qualify against level 8.','Combat','Common'],
+ ['veteran','Veteran Slayer','Qualify against level 12.','Combat','Rare'],
+ ['legendaryslayer','Legendary Slayer','Qualify against level 16.','Combat','Epic'],
+ ['godkiller','Godkiller','Qualify against level 20.','Combat','Legendary'],
+ ['hardhero','Hard Mode Hero','Qualify against level 15 with Hard Mode throughout.','Luck & Chaos','Legendary'],
+ ['secondchances','No Second Chances','Qualify against level 12 without respins.','Luck & Chaos','Epic'],
+ ['againstmeta','Against the Meta','Qualify against level 15 without an active synergy.','Luck & Chaos','Legendary'],
+ ['escalated','Well, That Escalated','Lose the featured battle in one round.','Battle Feats','Rare'],
+ ['union','Minion Union','Lose the featured battle while minions outdamage the boss.','Battle Feats','Rare'],
+ ['participation','Participation Trophy','Fail to qualify against level 5.','Combat','Rare'],
+ ['almostfamous','Almost Famous','Finish with a 60–64.9% win rate at any level.','Combat','Rare'],
+ ['allmagic','Oops, All Magic','Spellcasting, Intelligence 20+, Strength below 10.','Boss Builds','Epic'],
+ ['builtdifferent','Built Different','Finish with five or more D-tier traits.','Boss Builds','Rare'],
  ['alive','It’s Alive!','Complete your first boss.','Milestones'],
  ['scientist','Mad Scientist','Complete 10 bosses.','Milestones'],
  ['serial','Serial Villain','Complete 25 bosses.','Milestones'],
@@ -545,28 +621,31 @@ function showAchievementPopup(){
  const close=text('button','Continue');close.onclick=()=>{pop.remove();achShowing=false;showAchievementPopup()};pop.append(close);
  document.body.append(pop);
 }
+let achievementFilter="All";
 function renderHall(){
  const count=ACHIEVEMENTS.filter(a=>achievementData.unlocked[a[0]]).length;
  $('achievementSummary').textContent=count+' / '+ACHIEVEMENTS.length+' unlocked · '+achievementData.builds+' completed builds';
+ const filters=$('achievementFilters');filters.replaceChildren();
+ for(const rarity of ['All','Common','Rare','Epic','Legendary']){const button=text('button',rarity);button.className='secondary'+(achievementFilter===rarity?' selected':'');button.onclick=()=>{achievementFilter=rarity;renderHall()};filters.append(button)}
  const wrap=$('hallContents');wrap.replaceChildren();
- for(const category of ['Combat','Boss Builds','Luck & Chaos','Milestones']){
+ for(const category of ['Combat','Battle Feats','Boss Builds','Synergies','Luck & Chaos','Milestones']){
   wrap.append(text('h3',category));
   const grid=text('div','','hall-grid');
-  for(const a of ACHIEVEMENTS.filter(a=>a[3]===category)){
+  for(const a of ACHIEVEMENTS.filter(a=>a[3]===category&&(achievementFilter==='All'||(a[4]||'Common')===achievementFilter))){
    const unlocked=!!achievementData.unlocked[a[0]],tile=text('div','','achievement'+(unlocked?'':' locked'));
-   tile.append(text('div',unlocked?'🏆':'🔒','seal'),text('strong',a[1]),text('small',a[2]));
+   tile.append(text('div',unlocked?'🏆':'🔒','seal'),text('strong',a[1]),text('small',a[2]),text('small',a[4]||'Common','rarity '+(a[4]||'Common').toLowerCase()));
    if(unlocked)tile.append(text('small','Unlocked '+new Date(achievementData.unlocked[a[0]]).toLocaleDateString()));
    grid.append(tile);
   }
   wrap.append(grid);
  }
 }
-function evaluateAchievements(results){
+function evaluateAchievements(results,featured){
  const boss=makeBoss(),b=boss.b,rate=l=>results.find(x=>x.level===l)?.rate||0;
  const qualified=l=>rate(l)>=.65;
  const rawDamage=b.attacks*(b.dice*(b.sides+1)/2+b.flat);
  const unlocked=['alive'];
- for(const [n,id] of [[10,'scientist'],[25,'serial'],[50,'factory'],[100,'archvillain']])if(achievementData.builds>=n)unlocked.push(id);
+ for(const [n,id] of [[10,'scientist'],[25,'serial'],[50,'factory'],[100,'archvillain']])if(achievementData.builds+1>=n)unlocked.push(id);
  for(const [n,id] of [[5,'crasher'],[10,'breaker'],[15,'legend'],[20,'tpk']])if(qualified(n))unlocked.push(id);
  if(results.some(x=>x.rate>=.60&&x.rate<.65))unlocked.push('close');
  if(rawDamage>=100&&b.maxHp<200)unlocked.push('glass');
@@ -579,6 +658,46 @@ function evaluateAchievements(results){
  if(qualified(15)&&b.maxHp<150)unlocked.push('odds');
  if(rerolls===0)unlocked.push('kitchen');
  if(hardModeStayedOn&&qualified(10))unlocked.push('blind');
+ const stat=i=>slots[i].monster.stats[i];
+ const tiers=names.map((_,i)=>traitPower(i,slots[i].monster));
+ const sCount=tiers.filter(x=>x==='S').length,dCount=tiers.filter(x=>x==='D').length;
+ const syn=synergies().map(x=>x[0]);const has=(...names)=>names.every(x=>syn.includes(x));
+ const raw=rawDamage;
+ if(slots[3].monster.stats[3]>=20)unlocked.push('bigbrain');
+ if(slots[0].monster.stats[0]>=24)unlocked.push('muscle');
+ if(b.ac>=25)unlocked.push('untouchable');
+ if(b.maxHp>=500)unlocked.push('fortress');
+ if(slots[14].monster.speed>=60)unlocked.push('speed');
+ if(raw>=45&&b.ac<16)unlocked.push('fragile');
+ if(sCount>=4)unlocked.push('specimen');
+ if(dCount>=4&&qualified(15))unlocked.push('daring');
+ if(syn.length>=1)unlocked.push('spark');
+ if(syn.length>=2)unlocked.push('double');
+ if(syn.length>=3)unlocked.push('triple');
+ if(has('Forbidden Calculus','Arcane Sovereign'))unlocked.push('arcarchitect');
+ if(has('Adamant Onslaught','Relentless Pursuit'))unlocked.push('unstoppable');
+ if(has('Deathless Bulwark'))unlocked.push('bulwark');
+ if(has('Predator’s Insight','Legion Commander'))unlocked.push('tactician');
+ for(const [lv,id] of [[8,'apprentice'],[12,'veteran'],[16,'legendaryslayer'],[20,'godkiller']])if(qualified(lv))unlocked.push(id);
+ if(hardModeStayedOn&&qualified(15))unlocked.push('hardhero');
+ if(rerolls===5&&qualified(12))unlocked.push('secondchances');
+ if(syn.length===0&&qualified(15))unlocked.push('againstmeta');
+ if(!qualified(5))unlocked.push('participation');
+ if(results.some(x=>x.rate>=.60&&x.rate<.65))unlocked.push('almostfamous');
+ if(boss.caster&&slots[3].monster.stats[3]>=20&&slots[0].monster.stats[0]<10)unlocked.push('allmagic');
+ if(dCount>=5)unlocked.push('builtdifferent');
+ if(featured){const m=featured.metrics||{};
+  if(featured.winner==='boss'&&featured.round===1)unlocked.push('firstblood');
+  if(featured.winner==='boss'&&featured.heroesRemaining===0)unlocked.push('totalparty');
+  if(featured.winner==='boss'&&featured.bossHp>0&&featured.bossHp/b.maxHp<.10)unlocked.push('closecall');
+  if(featured.winner==='boss'&&featured.minionsRemaining===8)unlocked.push('nocasualties');
+  if((m.minions||0)>(m.boss||0))unlocked.push('darkarmy');
+  if((m.bossSpell||0)+(m.bossArea||0)>=200)unlocked.push('apocalypse');
+  if(featured.winner==='boss'&&featured.minionsRemaining===0)unlocked.push('laststanding');
+  if(featured.winner==='boss'&&b.maxHp-featured.bossHp>=300)unlocked.push('unbreakable');
+  if(featured.winner==='heroes'&&featured.round===1)unlocked.push('escalated');
+  if(featured.winner==='heroes'&&(m.minions||0)>(m.boss||0))unlocked.push('union');
+ }
  achievementData.builds++;saveAchievements();unlockAchievements(unlocked);renderHall();
 }
 
@@ -587,7 +706,7 @@ function evaluateAchievements(results){
 const LEADERBOARD_CONFIG={url:'https://oehqcpsfvclvxwxyubgw.supabase.co',anonKey:'sb_publishable_r6BeE662kchNKTr701bpUA_gJwtsU1O'};
 const LEADERBOARD_KEY='build_a_boss_personal_scores_v1';
 const PLAYER_KEY='build_a_boss_player_name_v1';
-let leaderboardScope='personal',leaderboardPeriod='daily',lastSubmittedBuild=null;
+let leaderboardScope='personal',leaderboardPeriod='daily',lastSubmittedBuild=null,leaderboardError='';
 function readPersonalScores(){try{const x=JSON.parse(localStorage.getItem(LEADERBOARD_KEY)||'[]');return Array.isArray(x)?x:[]}catch(e){return []}}
 function playerName(){try{return localStorage.getItem(PLAYER_KEY)||'Anonymous Villain'}catch(e){return 'Anonymous Villain'}}
 function periodStart(period,now=new Date()){
@@ -610,12 +729,12 @@ function leaderboardBest(rows,period){
 }
 function globalReady(){return /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(LEADERBOARD_CONFIG.url)&&LEADERBOARD_CONFIG.anonKey.length>20}
 function leaderboardEndpoint(){return LEADERBOARD_CONFIG.url.replace(/\/$/,'')+'/rest/v1/boss_scores'}
-function leaderboardHeaders(){return {'apikey':LEADERBOARD_CONFIG.anonKey,'Authorization':'Bearer '+LEADERBOARD_CONFIG.anonKey,'Content-Type':'application/json'}}
+function leaderboardHeaders(){return {'apikey':LEADERBOARD_CONFIG.anonKey,'Content-Type':'application/json'}}
 async function submitGlobalScore(record){
  if(!globalReady())return false;
- const body={player:record.player,boss:record.boss,title:record.title,level:record.level,rate:record.rate,played_at:new Date(record.timestamp).toISOString(),build_id:record.id};
+ const body={player:record.player.slice(0,24),boss:record.boss.slice(0,40),title:record.title.slice(0,80),level:record.level,rate:record.rate,played_at:new Date(record.timestamp).toISOString(),build_id:record.id};
  const response=await fetch(leaderboardEndpoint(),{method:'POST',headers:{...leaderboardHeaders(),'Prefer':'return=minimal'},body:JSON.stringify(body)});
- if(!response.ok)throw Error('Online score submission failed ('+response.status+')');
+ if(!response.ok){const details=await response.text();throw Error('Online submission '+response.status+': '+details.slice(0,280));}
  return true;
 }
 async function fetchGlobalScores(){
@@ -624,7 +743,7 @@ async function fetchGlobalScores(){
  const qs=new URLSearchParams({select:'player,boss,title,level,rate,played_at,build_id',order:'level.desc,rate.desc,played_at.desc',limit:'1000'});
  if(from)qs.set('played_at','gte.'+new Date(from).toISOString());
  const response=await fetch(leaderboardEndpoint()+'?'+qs.toString(),{headers:leaderboardHeaders()});
- if(!response.ok)throw Error('Unable to load online scores ('+response.status+')');
+ if(!response.ok){const details=await response.text();throw Error('Online leaderboard '+response.status+': '+details.slice(0,280));}
  return (await response.json()).map(x=>({player:x.player,boss:x.boss,title:x.title,level:x.level,rate:x.rate,timestamp:new Date(x.played_at).getTime(),id:x.build_id}));
 }
 function renderLeaderboardRows(rows){
@@ -651,10 +770,10 @@ async function refreshLeaderboard(){
  }
  if(document.activeElement!==$('leaderboardPlayer'))$('leaderboardPlayer').value=playerName();
  const status=$('leaderboardStatus');
- if(leaderboardScope==='personal'){status.textContent='Stored locally on this device.';renderLeaderboardRows(leaderboardBest(readPersonalScores(),leaderboardPeriod));return}
- status.textContent='Loading global scores…';
- try{const scores=await fetchGlobalScores();renderLeaderboardRows(leaderboardBest(scores,leaderboardPeriod));status.textContent='Online scores · unverified submissions'}
- catch(e){renderLeaderboardRows([]);status.textContent=e.message}
+ if(leaderboardScope==='personal'){status.textContent=(leaderboardError?leaderboardError+' · ':'')+'Stored locally on this device.';renderLeaderboardRows(leaderboardBest(readPersonalScores(),leaderboardPeriod));return}
+ status.textContent=leaderboardError||'Loading global scores…';
+ try{const scores=await fetchGlobalScores();renderLeaderboardRows(leaderboardBest(scores,leaderboardPeriod));status.textContent=leaderboardError||'Online scores · unverified submissions'}
+ catch(e){renderLeaderboardRows([]);status.textContent='Could not load global scores: '+e.message}
 }
 function recordLeaderboardScore(results){
  if(lastSubmittedBuild)return;
@@ -667,7 +786,7 @@ function recordLeaderboardScore(results){
  lastSubmittedBuild=record.id;
  try{const scores=readPersonalScores();scores.push(record);localStorage.setItem(LEADERBOARD_KEY,JSON.stringify(scores.slice(-500)))}catch(e){}
  refreshLeaderboard();
- if(globalReady())submitGlobalScore(record).then(()=>{if(leaderboardScope==='global')refreshLeaderboard()}).catch(e=>{$('leaderboardStatus').textContent='Saved locally. Online upload failed: '+e.message});
+ if(globalReady())submitGlobalScore(record).then(()=>{leaderboardError='';if(leaderboardScope==='global')refreshLeaderboard()}).catch(e=>{leaderboardError='Score saved locally, but global upload failed: '+e.message;$('leaderboardStatus').textContent=leaderboardError});
 }
 function saveLeaderboardName(){
  const input=$('leaderboardPlayer');
@@ -704,9 +823,9 @@ async function runChallenge(){
   out.append(text('p',highest===null?'Your boss did not defeat any party level from 5–20.':`Your boss defeated level ${highest} with at least a 65% win rate.`, 'muted'));
   out.append(text('p','3,200 seeded battles · 200 per party level · Levels 5–20','muted'));
   bars(out,results);
-  if(!challengeAchievementRecorded){evaluateAchievements(results);challengeAchievementRecorded=true;}recordLeaderboardScore(results);
   const inspectedLevel=results.find(x=>x.rate<.65)?.level||20;
   const inspected=battle(inspectedLevel,0x5a17,true,true);
+  if(!challengeAchievementRecorded){evaluateAchievements(results,inspected);challengeAchievementRecorded=true;}recordLeaderboardScore(results);
   const insights=text('div','','battle-insights');
   insights.append(text('h3','Battle breakdown · Sample level '+inspectedLevel+' fight'));
   insights.append(text('p','Result: '+(inspected.winner==='boss'?'Boss victory':inspected.winner==='heroes'?'Hero victory':'Draw')+' in '+inspected.round+' rounds'));
@@ -720,11 +839,11 @@ async function runChallenge(){
   out.append(insights);
   const reasons=learningFeedback(results);
   const learning=document.createElement('div');learning.className='notice';
-  learning.append(text('strong',reasons.length===1?'Build review':'Three ways to improve your next build'));
+  learning.append(text('strong',reasons.length===1?'Build review':reasons.length===4?'Build optimization ideas':'Three ways to improve your next build'));
   const list=document.createElement('ol');
   for(const reason of reasons)list.append(text('li',reason));
   learning.append(list);
-  learning.append(text('small','These are rule-based coaching tips from your stats and the first party level below 65% wins, not verified causes of individual battle losses.'));
+  learning.append(text('small','Personalized rule-based coaching drawn from your forged traits and the first party level below 65% wins (or level 20 if undefeated). These are strategic suggestions, not verified causes of individual losses.'));
   out.append(learning);
   out.append(text('p','A level is defeated when the boss wins at least 65% of its trials. This is a simplified fantasy arcade simulation, not an official D&D difficulty rating.','notice'));
   $('result').scrollIntoView({behavior:'smooth',block:'start'});
