@@ -868,7 +868,7 @@ async function fetchGlobalScores(){
  if(from)qs.set('played_at','gte.'+new Date(from).toISOString());
  const response=await fetch(leaderboardEndpoint()+'?'+qs.toString(),{headers:leaderboardHeaders()});
  if(!response.ok){const details=await response.text();throw Error('Online leaderboard '+response.status+': '+details.slice(0,280));}
- return (await response.json()).map(x=>({player:x.player,boss:x.boss,title:x.title,level:x.level,rate:x.rate,timestamp:new Date(x.played_at).getTime(),id:x.build_id}));
+ return (await response.json()).filter(x=>String(x.build_id||'').startsWith('g')).map(x=>({player:x.player,boss:x.boss,title:x.title,level:x.level,rate:x.rate,timestamp:new Date(x.played_at).getTime(),id:x.build_id}));
 }
 function renderLeaderboardRows(rows){
  const host=$('leaderboardRows');host.replaceChildren();
@@ -878,13 +878,13 @@ function renderLeaderboardRows(rows){
  for(const h of ['#','Player / Boss','Level','Result'])header.append(text('th',h));
  table.append(header);
  rows.forEach((x,i)=>{const tr=document.createElement('tr');
- tr.append(text('td',String(i+1)),text('td',x.player+' · '+x.boss+', '+x.title),text('td',x.level?'Lv '+x.level:'—'),text('td',x.rate===1?'Victory':'—'));table.append(tr)});
+ tr.append(text('td',String(i+1)),text('td',x.player+' · '+x.boss+', '+x.title),text('td',x.level?'Lv '+x.level:'—'),text('td',x.rate===1&&x.level===20?'Gauntlet cleared':x.level?'Eliminated':'No wins'));table.append(tr)});
  host.append(table);
 }
 async function refreshLeaderboard(){
  const scopes=$('leaderboardScope'),periods=$('leaderboardPeriod');
  scopes.replaceChildren();periods.replaceChildren();
- for(const [id,label] of [['personal','My Gauntlet Scores']]){
+ for(const [id,label] of [['personal','My Gauntlet Scores'],['global','Global Gauntlet Rankings']]){
   const b=text('button',label);if(id===leaderboardScope)b.classList.add('active');
   b.onclick=()=>{leaderboardScope=id;refreshLeaderboard()};scopes.append(b);
  }
@@ -896,7 +896,7 @@ async function refreshLeaderboard(){
  const status=$('leaderboardStatus');
  if(leaderboardScope==='personal'){status.textContent=(leaderboardError?leaderboardError+' · ':'')+'Stored locally on this device.';renderLeaderboardRows(leaderboardBest(readPersonalScores(),leaderboardPeriod));return}
  status.textContent=leaderboardError||'Loading global scores…';
- try{const scores=await fetchGlobalScores();renderLeaderboardRows(leaderboardBest(scores,leaderboardPeriod));status.textContent=leaderboardError||'Online scores · unverified submissions'}
+ try{const scores=await fetchGlobalScores();renderLeaderboardRows(leaderboardBest(scores,leaderboardPeriod));status.textContent=leaderboardError||'Global Gauntlet rankings · scores are player-submitted and unverified'}
  catch(e){renderLeaderboardRows([]);status.textContent='Could not load global scores: '+e.message}
 }
 function recordLeaderboardScore(results){
@@ -906,11 +906,11 @@ function recordLeaderboardScore(results){
  const qualified=results.filter(x=>x.winner==='boss');
  const top=qualified.length?qualified.reduce((a,b)=>a.level>b.level?a:b):null;
  const identity=ensureBossIdentity();
- const record={id:'b'+Date.now().toString(36)+Math.random().toString(36).slice(2,10),player:playerName(),boss:identity.name,title:identity.title,level:top?.level||0,rate:top?.rate||0,timestamp:Date.now()};
+ const record={id:'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,10),player:playerName(),boss:identity.name,title:identity.title,level:top?.level||0,rate:top?.level===20?1:0,timestamp:Date.now()};
  lastSubmittedBuild=record.id;
  try{const scores=readPersonalScores();scores.push(record);localStorage.setItem(LEADERBOARD_KEY,JSON.stringify(scores.slice(-500)))}catch(e){}
  refreshLeaderboard();
- if(false&&globalReady())submitGlobalScore(record).then(()=>{leaderboardError='';if(leaderboardScope==='global')refreshLeaderboard()}).catch(e=>{leaderboardError='Score saved locally, but global upload failed: '+e.message;$('leaderboardStatus').textContent=leaderboardError});
+ if(globalReady())submitGlobalScore(record).then(()=>{leaderboardError='';if(leaderboardScope==='global')refreshLeaderboard()}).catch(e=>{leaderboardError='Score saved locally, but global upload failed: '+e.message;$('leaderboardStatus').textContent=leaderboardError});
 }
 function saveLeaderboardName(){
  const input=$('leaderboardPlayer');
